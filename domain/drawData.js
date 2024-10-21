@@ -1,6 +1,7 @@
 //const util = require('Util.js')
 import {util} from "./Util.js";
 
+
 class DrawData{
     #questionElement;
     #peoples;
@@ -15,16 +16,43 @@ class DrawData{
         return this.#peoples;
     }
 
-    initPepole(peopleLst){
+    set peoples(input){
+        this.#peoples = input;
+    }
+
+    get peoples(){
+        return this.#peoples;
+    }
+
+    getPlayerId(name){
+        let res = 0;
+        for(let someInd = 0; someInd < this.#peoples.length; someInd++){
+            if(name == this.#peoples[someInd].name){
+                res = this.#peoples[someInd].id;
+            }
+        }
+        return res;
+    }
+
+    initPepole(peopleLst,quetionCallBack){
         this.#peoples = peopleLst;
         const pepole = util.getPepolesName(this.peoples);
         //draw the list
-        const menuEle = this.#questionElement.querySelector("select.people");
-        pepole.array.forEach(element => {
+        const menuEle = this.#questionElement.querySelector("select#people");
+        for(let item of pepole){
             const optionele = document.createElement("option");
-            optionele.innerHTML = `<option value="${element}">${element}</option>`;
+            optionele.innerHTML = `<option value="${item}">${item}</option>`;
             menuEle.appendChild(optionele);
-        });
+        }
+        const timeInput = this.#questionElement.querySelector('input[type="time"]');
+        timeInput.value = '13:12';
+        const questionBut = this.#questionElement.querySelector('form button.submit');
+        questionBut.addEventListener("click",(e)=>{
+            e.preventDefault();
+            const theId = this.getPlayerId(menuEle.value);
+            const hour = timeInput.value.slice(0,timeInput.value.indexOf(':'));
+            quetionCallBack(theId,hour);
+            })
         
     }
 }

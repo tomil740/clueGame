@@ -12,9 +12,12 @@ class Game{
     }
 
     #initalizeDrawDataObj(){
-        console.log(this.#serverDaoObj.mainRoute);
+        this.#serverDaoObj.getPlayersList().then((data)=>this.#drawObj.initPepole(data,this.#makeQuestion));
+    }
 
-        this.#serverDaoObj.getPlayersList().then((data)=>this.#drawObj.initPepole(data));
+    //Actions callBack functions:
+    #makeQuestion(playerName,time){
+              
     }
 
 }

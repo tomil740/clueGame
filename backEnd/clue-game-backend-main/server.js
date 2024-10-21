@@ -2,10 +2,13 @@ const express = require('express');
 const fns = require('./utils/functions.js');
 const cors = require('cors');
 
+
 const app = express();
-const port = 3100;
+const port = 3000;
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 app.use(cors())
+
 
 app.get('/people/:personId', (req, res) => {
     const people = fns.getLoadedData("people");
